@@ -97,7 +97,14 @@ def landau_spectrum(x, fs, detrend_ord=1):
     return f, y
 
 
-def fsk2013(x, t, k_perm):
+def fsk2013(x, t,
+            k_perm='fsk2013',
+            nfft='fsk2013',
+            t_start=None,
+            t_end=None,
+            bin_step='fsk2013',
+            bin_width='fsk2013',
+            f_max='fsk2013'):
     """
     Search for statistically significant behavioral oscillations as in
     Fiebelkorn et al. (2013)
@@ -108,9 +115,28 @@ def fsk2013(x, t, k_perm):
         A sequence of accuracy (Hit: 1, Miss: 0) for each trial
     t : np.ndarray
         The time-stamps for each trial
-    k_perm : int
+    k_perm : int or 'fsk2013'
         The number of times to randomly shuffle the data when computing the
-        permuted surrogate distribution
+        permuted surrogate distribution. 'fsk2013' defaults to the value chosen
+        in Fiebelkorn et al. 2013.
+    nfft : int or 'fsk2013'
+        The number of samples used to compute the FFT. 'fsk2013' defaults to
+        the value chosen in Fiebelkorn et al. 2013.
+    t_start : float or None
+        The time stamp of the center of the first window. If None, use the
+        first time-step.
+    t_end : float
+        The time stamp of the center of the last window. If None, use the last
+        time-step.
+    bin_step : float or 'fsk2013'
+        The step distance between windows. 'fsk2013' defaults to the value
+        chosen in Fiebelkorn et al. 2013.
+    bin_width : float or 'fsk2013'
+        The width of the sliding window. 'fsk2013' defaults to the value chosen
+        in Fiebelkorn et al. 2013.
+    f_max : float or 'fsk2013'
+        The maximum frequency to include in the analysis. 'fsk2013' defaults to
+        the value chosen in Fiebelkorn et al. 2013.
 
     Returns
     -------
@@ -122,8 +148,24 @@ def fsk2013(x, t, k_perm):
             P-values for each frequency, corrected for multiple comparisons
             using FDR
     """
+    if t_start is None:
+        t_start = np.min(t)
+    if t_end is None:
+        t_end = np.max(t) + 1e-10
+    details = behav_details['fiebelkorn']
+    spec_kwargs = {'nfft': nfft,
+                   't_start': t_start,
+                   't_end': t_end,
+                   'bin_step': bin_step,
+                   'bin_width': bin_width,
+                   'f_max': f_max}
+    for k, v in spec_kwargs.items():
+        if v == 'fsk2013':
+            spec_kwargs[k] = details[k]
+
     # Compute the results
-    res = time_shuffled_perm(lambda xx: fiebelkorn_spectrum(xx, t), x, k_perm)
+    res = time_shuffled_perm(lambda xx: fiebelkorn_spectrum(xx, t, **spec_kwargs),
+                             x, k_perm)
     res['t'] = t
 
     # Correct for multiple comparisons across frequencies
@@ -132,9 +174,11 @@ def fsk2013(x, t, k_perm):
     return res
 
 
-def fiebelkorn_binning(x_trial, t_trial):
+def fiebelkorn_binning(x_trial, t_trial,
+                       t_start, t_end,
+                       bin_step, bin_width):
     """
-    Given accuracy and time-points, find the time-smoothed average accuracy
+    Given accuracy and time-points, find the time-smoothed average accuracy in a sliding window
 
     Parameters
     ----------
@@ -142,6 +186,14 @@ def fiebelkorn_binning(x_trial, t_trial):
         Accuracy (Hit: 1, Miss: 0) of each trial
     t_trial : np.ndarray
         The time-stamp of each trial
+    t_start : float
+        The time stamp of the center of the first window
+    t_end : float
+        The time stamp of the center of the last window
+    bin_step : float
+        The step distance between windows
+    bin_width : float
+        The width of the sliding window
 
     Returns
     -------
@@ -150,17 +202,16 @@ def fiebelkorn_binning(x_trial, t_trial):
     t_bin : np.ndarray
         The centers of each time bin
     """
-    details = behav_details['fiebelkorn']
     # Time-stamps of the center of each bin
-    t_bin = np.arange(details['t_start'],
-                      details['t_end'] + 1e-10,
-                      details['bin_step'])
+    t_bin = np.arange(t_start,
+                      t_end + 1e-10,
+                      bin_step)
     # Accuracy within each bin
     x_bin = []
     for i_bin in range(len(t_bin)):
         bin_center = t_bin[i_bin]
-        bin_start = bin_center - (details['bin_width'] / 2)
-        bin_end = bin_center + (details['bin_width'] / 2)
+        bin_start = bin_center - (bin_width / 2)
+        bin_end = bin_center + (bin_width / 2)
         bin_sel = (bin_start <= t_trial) & (t_trial <= bin_end)
         x_bin_avg = np.mean(x_trial[bin_sel])
         x_bin.append(x_bin_avg)
@@ -169,7 +220,10 @@ def fiebelkorn_binning(x_trial, t_trial):
     return x_bin, t_bin
 
 
-def fiebelkorn_spectrum(x, t):
+def fiebelkorn_spectrum(x, t, nfft,
+                        t_start, t_end,
+                        bin_step, bin_width,
+                        f_max='fsk2013'):
     """
     Compute the spectrum of accuracy data as in Fiebelkorn et al. (2013)
 
@@ -179,6 +233,19 @@ def fiebelkorn_spectrum(x, t):
         The data for each trial
     t : np.ndarray
         The time-stamp for each trial
+    nfft : int
+        The number of samples used to compute the FFT
+    t_start : float
+        The time stamp of the center of the first window
+    t_end : float
+        The time stamp of the center of the last window
+    bin_step : float
+        The step distance between windows
+    bin_width : float
+        The width of the sliding window
+    f_max : float or 'fsk2013'
+        The maximum frequency to include in the analysis. 'fsk2013' defaults to
+        the value chosen in Fiebelkorn et al. 2013.
 
     Returns
     -------
@@ -187,17 +254,20 @@ def fiebelkorn_spectrum(x, t):
     y : np.ndarray
         The amplitude spectrum
     """
-    details = behav_details['fiebelkorn']
     # Get the moving average of accuracy
-    x_bin, t_bin = fiebelkorn_binning(x, t)
+    x_bin, t_bin = fiebelkorn_binning(x, t,
+                                      t_start, t_end,
+                                      bin_step, bin_width)
     # Detrend the binned data
     x_bin = sm.tsa.tsatools.detrend(x_bin, order=2)
     # Window the data
     x_bin = window(x_bin, np.hanning(len(x_bin)))
     # Get the spectrum
-    f, y = dft(x_bin, 1 / details['bin_step'], details['nfft'])
+    f, y = dft(x_bin, 1 / bin_step, nfft)
     # Only keep frequencies that were reported in the paper
-    f_keep = f <= details['f_max']
+    if f_max == 'fsk2013':
+        f_max = behav_details['fiebelkorn']['f_max']
+    f_keep = f <= f_max
     f = f[f_keep]
     y = y[f_keep]
     return f, y

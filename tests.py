@@ -116,7 +116,11 @@ class TestShufflingInTime(AnalysisTesterMixin):
         # Make 100% accuracy at times at or above 0.5, 0% below that
         x_trial = t_trial >= 0.5
         # Compute binned accuracy
-        x_bin, t_bin = shuff_time.fiebelkorn_binning(x_trial, t_trial)
+        x_bin, t_bin = shuff_time.fiebelkorn_binning(x_trial, t_trial,
+                                                     t_start=details['t_start'],
+                                                     t_end=details['t_end'],
+                                                     bin_step=details['bin_step'],
+                                                     bin_width=details['bin_width'])
         # Make sure the proportions correct are between 0 and 1
         self.assertTrue(np.min(x_bin) >= 0)
         self.assertTrue(np.max(x_bin) <= 1)
@@ -138,7 +142,12 @@ class TestShufflingInTime(AnalysisTesterMixin):
         t_trial = np.random.uniform(details['t_start'], details['t_end'], size=x_trial.shape)
         osc = osc_amp * np.sin(2 * np.pi * osc_freq * t_trial)
         x_trial = x_trial + osc
-        f, y = shuff_time.fiebelkorn_spectrum(x_trial, t_trial)
+        f, y = shuff_time.fiebelkorn_spectrum(x_trial, t_trial,
+                                              nfft=details['nfft'],
+                                              t_start=details['t_start'],
+                                              t_end=details['t_end'],
+                                              bin_step=details['bin_step'],
+                                              bin_width=details['bin_width'])
         peak_inx = np.argmax(y)
         peak_freq = f[peak_inx]
         # Does this recover the right frequency?
