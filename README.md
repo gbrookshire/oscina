@@ -6,8 +6,11 @@ This library provides functions to test whether brief time-series have rhythmic 
 ## Citation
 
 If you find this library useful, please cite the accompanying paper:
+> Brookshire, G. (In prep.) "Putative rhythms in attentional switching can be explained by aperiodic temporal structure."
 
-FILL IN
+Preprint:
+https://www.biorxiv.org/content/10.1101/2021.05.07.443101v1
+
 
 ## Installation
 
@@ -15,4 +18,4 @@ FILL IN
 
 ## Examples
 
-FILL IN
+See the notebook `examples/Example.ipynb` for illustrations of how to use `tempstruc`.
