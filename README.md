@@ -1,11 +1,10 @@
-# temporal_structure
-Tools to test for rhythms in the presence of autocorrelated aperiodic structure
+# OscInA: Oscillations in autocorrelated time-series
 
-This library provides functions to test whether brief time-series have rhythmic structure.
+Tools to test for periodic rhythms in aperiodic autocorrelated signals.
+
 
 ## Citation
 
-If you find this library useful, please cite the accompanying paper:
 > Brookshire, G. (In prep.) "Putative rhythms in attentional switching can be explained by aperiodic temporal structure."
 
 Preprint:
@@ -15,6 +14,14 @@ https://www.biorxiv.org/content/10.1101/2021.05.07.443101v1
 ## Installation
 
 FILL IN
+
+
+### Requirements
+
+- Python 3
+- External Python dependencies are listed in `requirements.txt`.
+- `mtspec` should be installed using conda: `$ conda install -c conda-forge mtspec`
+
 
 ## Examples
 

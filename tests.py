@@ -3,13 +3,13 @@ import numpy as np
 import yaml
 from scipy import signal
 import unittest
-from tempstruc import shuff_time
-from tempstruc import alternatives
-from tempstruc import utils
+from oscina import (shuff_time, ar_surr, robust_est, utils)
+from oscina.robust_est import fit_ar_spec
+from oscina.ar_surr import clusterstat_1d
 
 # Load the details of the behavioral studies
 _pathname = os.path.dirname(os.path.abspath(__file__))
-_behav_fname = os.path.join(_pathname, 'tempstruc/behav_details.yaml')
+_behav_fname = os.path.join(_pathname, 'oscina/behav_details.yaml')
 behav_details = yaml.safe_load(open(_behav_fname))
 
 
@@ -165,7 +165,7 @@ class TestAlternativeMethods(AnalysisTesterMixin):
     # Alternative methods
     def test_ar_surr(self):
         x = np.random.normal(size=self.n)
-        res = alternatives.ar_surr(x, self.fs, self.k_perm)
+        res = ar_surr(x, self.fs, self.k_perm)
         self.assertIsInstance(res, dict)
         # Make sure the frequencies are what we expect
         expected_freqs = np.arange(1, self.fs / 2)
@@ -179,7 +179,7 @@ class TestAlternativeMethods(AnalysisTesterMixin):
 
     def test_robust_est(self):
         x = np.random.normal(size=self.n)
-        res = alternatives.robust_est(x, self.fs)
+        res = robust_est(x, self.fs)
         # Run standard tests
         self.analysis_method_helper(res)
 
@@ -190,14 +190,14 @@ class TestAlternativeMethods(AnalysisTesterMixin):
         # Does this give a flat spectrum for white noise?
         x = np.random.normal(size=n)
         f, y = signal.welch(x, fs=fs, nperseg=nfft, noverlap=nfft / 2)
-        spec_fit = alternatives.fit_ar_spec(f, y, fs / 2)
+        spec_fit = fit_ar_spec(f, y, fs / 2)
         tol = 0.01  # 1% tolerance between higest and lowest value
         self.assertTrue(
                 (spec_fit.min() - spec_fit.max()) < (spec_fit.max() * tol))
         # Does this give a downward sloping spectrum for a random walk?
         x = np.cumsum(np.random.normal(size=n))
         f, y = signal.welch(x, fs=fs, nperseg=nfft, noverlap=nfft / 2)
-        spec_fit = alternatives.fit_ar_spec(f, y, fs / 2)
+        spec_fit = fit_ar_spec(f, y, fs / 2)
         self.assertTrue(np.all(np.diff(spec_fit) < 0))
 
     def test_clusterstat_1d(self):
@@ -210,12 +210,12 @@ class TestAlternativeMethods(AnalysisTesterMixin):
         # Make a surrogate distribution without a consistent peak
         x_perm = np.random.normal(size=(self.k_perm, self.n))
         # Compute the cluster statistic (2-tailed)
-        p_clust, cluster_info = alternatives.clusterstat_1d(x_emp, x_perm)
+        p_clust, cluster_info = clusterstat_1d(x_emp, x_perm)
         self.assertEqual(p_clust, 0)  # Should be very significant
 
         # Simulate some data that should NOT be significant
         x_emp = np.random.normal(scale=0, size=self.n)
-        p_clust, cluster_info = alternatives.clusterstat_1d(x_emp, x_perm)
+        p_clust, cluster_info = clusterstat_1d(x_emp, x_perm)
         self.assertTrue(p_clust > 0.1)  # Should not be significant
 
     # Utils
