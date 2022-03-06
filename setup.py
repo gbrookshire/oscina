@@ -19,5 +19,8 @@ setup(
     python_requires='>=3.6',
     install_requires=install_requires,
     tests_require=['unittest'],
+    package_data={
+        "": ["oscina/behav_details.yaml"],
+    },
     zip_safe=False
 )
