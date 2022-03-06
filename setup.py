@@ -1,6 +1,8 @@
 import os.path
 from setuptools import setup, find_packages
 
+print('\n\n\n IS THIS WORKING? \n\n\n')
+
 # Get the current version number from inside the module
 with open(os.path.join('oscina', 'version.py')) as version_file:
     exec(version_file.read())
