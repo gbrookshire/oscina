@@ -1,8 +1,6 @@
 import os.path
 from setuptools import setup, find_packages
 
-print('\n\n\n IS THIS WORKING? \n\n\n')
-
 # Get the current version number from inside the module
 with open(os.path.join('oscina', 'version.py')) as version_file:
     exec(version_file.read())
@@ -17,9 +15,8 @@ setup(
     description='OscInA: tools to test for oscillations in autocorrelated signals',
     url='https://github.com/gbrookshire/oscina',
     author='Geoffrey Brookshire',
-    packages=find_packages(),
+    packages=['oscina'],
     python_requires='>=3.6',
     install_requires=install_requires,
     tests_require=['unittest'],
-    zip_safe=False
 )

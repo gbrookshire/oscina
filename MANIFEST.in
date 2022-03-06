@@ -1,1 +1,1 @@
-global-include *.yaml
+include oscina/behav_details.yaml

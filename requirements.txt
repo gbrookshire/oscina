@@ -1,4 +1,3 @@
-mtspec>=0.3.2
 numpy>=1.18.1
 PyYAML>=6.0
 scikit-image>=0.17.2
