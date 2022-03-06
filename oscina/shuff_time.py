@@ -3,17 +3,41 @@ Tools to perform analyses by shuffling in time, as in Landau & Fries (2012) and
 Fiebelkorn et al. (2013).
 """
 
-import os
-import yaml
+#  import os
+#  import yaml
 import numpy as np
 import statsmodels.api as sm
 from statsmodels.stats.multitest import multipletests
 from .utils import avg_repeated_timepoints, dft
 
-# Load the details of the behavioral studies
-_pathname = os.path.dirname(os.path.abspath(__file__))
-_behav_fname = os.path.join(_pathname, 'behav_details.yaml')
-behav_details = yaml.safe_load(open(_behav_fname))
+#  # Load the details of the behavioral studies
+#  _pathname = os.path.dirname(os.path.abspath(__file__))
+#  _behav_fname = os.path.join(_pathname, 'behav_details.yaml')
+#  behav_details = yaml.safe_load(open(_behav_fname))
+
+behav_details = {
+    "landau": {  # Landau & Fries (2012, Curr Biol)
+        "k_perm": 500,  # Number of permutations in the randomization test
+        "n_trials": 104,  # 2 trials / lag / loc / subj: 2 * 52 lags in FFT = 104
+        "n_subjects": 16,  # Number of participants
+        "fs": 60,  # Sampling rate of the behavioral time-series
+        "t_start": 0.150,  # Time-stamp of the first point used to compute the spectra
+        "t_end": 1.000,  # Time-stamp of the last point used to compute the spectra
+        "nfft": 256  # Not specified. This tries to match their freq resolution
+    },
+    "fiebelkorn": {  # Fiebelkorn et al (2013, Curr Biol)
+        "k_perm": 1000,
+        "n_trials": 441,  # Number of trials per location per subject (summed over lags)
+        "n_subjects": 15,
+        "fs": 60,  # Not specified, but this is superceded by the binning procedure
+        "t_start": 0.300,
+        "t_end": 1.100,
+        "nfft": 128,  # Not specified. This tries to match their freq resolution
+        "f_max": 12,  # Only reported up to 12 Hz
+        "bin_step": 0.01,  # Step size between moving average bins
+        "bin_width": 0.05  # Width of the moving average bins
+    }
+}
 
 
 def lf2012(x, t, fs, k_perm):
