@@ -1,5 +1,5 @@
 import os.path
-from setuptools import setup, find_packages
+from setuptools import setup
 
 # Get the current version number from inside the module
 with open(os.path.join('oscina', 'version.py')) as version_file:
@@ -11,7 +11,7 @@ with open("requirements.txt") as requirements_file:
 
 setup(
     name='oscina',
-    version=__version__,
+    version=__version__,  # noqa: F821
     description='OscInA: tools to test for oscillations in autocorrelated signals',
     url='https://github.com/gbrookshire/oscina',
     author='Geoffrey Brookshire',
