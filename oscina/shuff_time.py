@@ -3,17 +3,10 @@ Tools to perform analyses by shuffling in time, as in Landau & Fries (2012) and
 Fiebelkorn et al. (2013).
 """
 
-#  import os
-#  import yaml
 import numpy as np
 import statsmodels.api as sm
 from statsmodels.stats.multitest import multipletests
 from .utils import avg_repeated_timepoints, dft
-
-#  # Load the details of the behavioral studies
-#  _pathname = os.path.dirname(os.path.abspath(__file__))
-#  _behav_fname = os.path.join(_pathname, 'behav_details.yaml')
-#  behav_details = yaml.safe_load(open(_behav_fname))
 
 behav_details = {
     "landau": {  # Landau & Fries (2012, Curr Biol)
