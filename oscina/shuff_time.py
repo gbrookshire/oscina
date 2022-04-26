@@ -33,7 +33,7 @@ behav_details = {
 }
 
 
-def lf2012(x, t, fs, k_perm):
+def lf2012(x, t, fs, k_perm='lf2021'):
     """
     Analyze the data as in Landau & Fries (2012)
 
@@ -42,7 +42,17 @@ def lf2012(x, t, fs, k_perm):
     x : nd.array
         Array of Hit (1) or Miss (0) for each trial
     t : nd.array
-        Time-stamp (SOA) for each trial
+        The time-stamps for each trial
+    fs : float
+        The sampling rate of the behavioral time-series. This is the inverse of
+        the time interval between different possible time-stamps. Note: This
+        analysis requires time-stamps to be "quantized" to a certain sampling
+        rate.
+    k_perm : int or 'lf2012'
+        The number of times to randomly shuffle the data when computing the
+        permuted surrogate distribution. 'lf2012' defaults to the value chosen
+        in Landau and Fries (2012)
+
 
     Returns
     -------
@@ -59,6 +69,9 @@ def lf2012(x, t, fs, k_perm):
             P-values corrected for multiple comparisons using Bonforroni
             correction
     """
+
+    if k_perm == 'lf2012':
+        k_perm = behav_details['landau']['k_perm']
 
     def landau_spectrum_trialwise(x_perm):
         """ Helper to compute spectrum on shuffled data
@@ -129,7 +142,7 @@ def fsk2013(x, t,
     Parameters
     ----------
     x : np.ndarray
-        A sequence of accuracy (Hit: 1, Miss: 0) for each trial
+        Array of Hit (1) or Miss (0) for each trial
     t : np.ndarray
         The time-stamps for each trial
     k_perm : int or 'fsk2013'

@@ -16,7 +16,8 @@ def robust_est(x, fs, nw=1.5, n_tapers=None,
     Parameters
     ----------
     x : np.ndarray
-        The aggregated data time-course
+        The aggregated data time-course. Must have only one observation for
+        each time-point, and the time-points must be equally spaced.
     fs : float
         Sampling rate of the data
     nw : float
