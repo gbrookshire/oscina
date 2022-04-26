@@ -5,7 +5,7 @@ Tools to test for periodic rhythms in aperiodic autocorrelated signals.
 
 ## Citation
 
-> Brookshire, G. (In prep.) "Putative rhythms in attentional switching can be explained by aperiodic temporal structure."
+> Brookshire, G. (In press) "Putative rhythms in attentional switching can be explained by aperiodic temporal structure." Nature Human Behaviour.
 
 Preprint:
 https://www.biorxiv.org/content/10.1101/2021.05.07.443101v1
