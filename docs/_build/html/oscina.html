@@ -16,7 +16,8 @@
     <script src="_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="oscina" href="modules.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -27,7 +28,11 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="oscina"
+             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">oscina 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">oscina</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">oscina package</a></li> 
       </ul>
     </div>  
@@ -62,12 +67,19 @@ each time-point, and the time-points must be equally spaced.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p><strong>res</strong> – A dictionary of the results of the test.
-x : np.ndarray</p>
+<dd class="field-even"><p>Results of the analysis. See <em>Notes</em> for details.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function returns a dictionary with the results of the AR surrogate
+analysis, which includes these items:</p>
 <blockquote>
-<div><p>The original time-series</p>
-</div></blockquote>
-<dl class="simple">
+<div><dl class="simple">
+<dt>x<span class="classifier">np.ndarray</span></dt><dd><p>The original time-series</p>
+</dd>
 <dt>x_perm<span class="classifier">np.ndarray</span></dt><dd><p>The surrogate time-series, simulated following the AR model</p>
 </dd>
 <dt>f<span class="classifier">np.ndarray</span></dt><dd><p>The frequencies of the Fourier transform</p>
@@ -91,12 +103,7 @@ corrected for multiple comparisons.</p>
 comparisons across frequencies. (See clusterstat_1d for details)</p>
 </dd>
 </dl>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
@@ -115,16 +122,21 @@ Must be between (0, 1).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul>
+<dd class="field-even"><p><ul class="simple">
 <li><p><strong>p</strong> (<em>float</em>) – P-value. The proportion runs in the surrogate distribution that had a
 larger cluster than the largest empirical cluster.</p></li>
-<li><p><strong>cluster_info</strong> (<em>dict</em>) – Information about the clusters found in the data. Fields:
-labels : np.ndarray (int)</p>
+<li><p><strong>cluster_info</strong> (<em>dict</em>) – Information about the clusters found in the data. See <em>Notes</em> for details.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">cluster_info</span></code> return value includes the following fields:</p>
 <blockquote>
-<div><p>Label of which cluster each sample belongs to. -1 means it’s not a
+<div><dl class="simple">
+<dt>labels<span class="classifier">np.ndarray (int)</span></dt><dd><p>Label of which cluster each sample belongs to. -1 means it’s not a
 member of any cluster.</p>
-</div></blockquote>
-<dl class="simple">
+</dd>
 <dt>stat<span class="classifier">np.ndarray (float)</span></dt><dd><p>The cluster statistic associated with each cluster</p>
 </dd>
 <dt>member_of_signif_cluster<span class="classifier">np.ndarray (bool)</span></dt><dd><p>Whether each sample is a member of a significant cluster</p>
@@ -132,24 +144,7 @@ member of any cluster.</p>
 <dt>p_cluster<span class="classifier">list (float)</span></dt><dd><p>P-value for each cluster in the empirical data</p>
 </dd>
 </dl>
-</li>
-<li><p><em>Algorithm</em></p></li>
-<li><p><em>Z-score amplitude across runs within each frequency</em></p></li>
-<li><p><em>Get the empirical difference between the amp and avg surrogate amps</em> – Get cluster stat</p></li>
-<li><p><em>For each run in the permuted data</em> –</p>
-<dl class="simple">
-<dt>Get the empirical difference between the amp and the other amps</dt><dd><p>(Including or excluding the real data?)</p>
-</dd>
-</dl>
-<p>Get cluster stat</p>
-</li>
-<li><p><em>Get p-value from the distribution of cluster stats</em></p></li>
-<li><p><em>To get cluster stats</em> – Take all samples above some z-value
-Look at connected</p></li>
-</ul>
-</p>
-</dd>
-</dl>
+</div></blockquote>
 </dd></dl>
 
 </section>
@@ -166,9 +161,13 @@ Mann &amp; Lees (1996), eq. 4</p>
 <li><p><strong>freq</strong> (<em>np.ndarray</em>) – The frequencies of the spectrum</p></li>
 <li><p><strong>spec</strong> (<em>np.ndarray</em>) – The amplitude of the spectrum</p></li>
 <li><p><strong>nyquist</strong> (<em>float</em>) – The Nyquist frequency</p></li>
-<li><p><strong>Returns</strong> – </p></li>
-<li><p><strong>spec_fit</strong> (<em>np.ndarray</em>) – The spectrum that best approximates an AR(1) process fit to the data</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>spec_fit</strong> – The spectrum that best approximates an AR(1) process fit to the data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -184,19 +183,26 @@ Mann &amp; Lees (1996), eq. 4</p>
 each time-point, and the time-points must be equally spaced.</p></li>
 <li><p><strong>fs</strong> (<em>float</em>) – Sampling rate of the data</p></li>
 <li><p><strong>nw</strong> (<em>float</em>) – Time bandwidth parameter for the multitapers</p></li>
-<li><p><strong>n_tapers</strong> (<em>int</em>) – Number of DPSS tapers. If None, set to int(2 * nw) - 1</p></li>
+<li><p><strong>n_tapers</strong> (<em>int</em>) – Number of DPSS tapers. If None, set to <code class="docutils literal notranslate"><span class="pre">int(2</span> <span class="pre">*</span> <span class="pre">nw)</span> <span class="pre">-</span> <span class="pre">1</span></code></p></li>
 <li><p><strong>med_filt_win</strong> (<em>int</em>) – Width of the median filter used to determine the background spectrum.</p></li>
 <li><p><strong>freq_cutoff</strong> (<em>float</em>) – Maximum frequency to look for rhythms in the time-series</p></li>
 <li><p><strong>correction</strong> (<em>str</em><em> (</em><em>'bonferroni'</em><em>, </em><em>'fdr'</em><em>)</em>) – How to correct for multiple comparisons across frequencies.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p><strong>res</strong> – A dictionary of the results of the statistical tests.
-x : np.ndarray</p>
+<dd class="field-even"><p>Results of the analysis. See <em>Notes</em> for details.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function returns a dictionary with the results of the robust estimate
+analysis, which includes these items:</p>
 <blockquote>
-<div><p>The original time-series</p>
-</div></blockquote>
-<dl class="simple">
+<div><dl class="simple">
+<dt>x<span class="classifier">np.ndarray</span></dt><dd><p>The original time-series</p>
+</dd>
 <dt>f<span class="classifier">np.ndarray</span></dt><dd><p>The frequencies of the Fourier transform</p>
 </dd>
 <dt>y_emp<span class="classifier">np.ndarray</span></dt><dd><p>The amplitude spectrum for the data</p>
@@ -207,12 +213,7 @@ corrected for multiple comparisons.</p>
 <dt>p_corr<span class="classifier">np.ndarray</span></dt><dd><p>P-values corrected for multiple comparisons.</p>
 </dd>
 </dl>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
+</div></blockquote>
 </dd></dl>
 
 </section>
@@ -220,59 +221,6 @@ corrected for multiple comparisons.</p>
 <span id="oscina-shuff-time-module"></span><h2>oscina.shuff_time module<a class="headerlink" href="#module-oscina.shuff_time" title="Permalink to this headline">¶</a></h2>
 <p>Tools to perform analyses by shuffling in time, as in Landau &amp; Fries (2012) and
 Fiebelkorn et al. (2013).</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="oscina.shuff_time.fiebelkorn_binning">
-<span class="sig-prename descclassname"><span class="pre">oscina.shuff_time.</span></span><span class="sig-name descname"><span class="pre">fiebelkorn_binning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#oscina.shuff_time.fiebelkorn_binning" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given accuracy and time-points, find the time-smoothed average accuracy in a sliding window</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x_trial</strong> (<em>np.ndarray</em>) – Accuracy (Hit: 1, Miss: 0) of each trial</p></li>
-<li><p><strong>t_trial</strong> (<em>np.ndarray</em>) – The time-stamp of each trial</p></li>
-<li><p><strong>t_start</strong> (<em>float</em>) – The time stamp of the center of the first window</p></li>
-<li><p><strong>t_end</strong> (<em>float</em>) – The time stamp of the center of the last window</p></li>
-<li><p><strong>bin_step</strong> (<em>float</em>) – The step distance between windows</p></li>
-<li><p><strong>bin_width</strong> (<em>float</em>) – The width of the sliding window</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>x_bin</strong> (<em>np.ndarray</em>) – The average accuracy within each time bin</p></li>
-<li><p><strong>t_bin</strong> (<em>np.ndarray</em>) – The centers of each time bin</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="oscina.shuff_time.fiebelkorn_spectrum">
-<span class="sig-prename descclassname"><span class="pre">oscina.shuff_time.</span></span><span class="sig-name descname"><span class="pre">fiebelkorn_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fsk2013'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#oscina.shuff_time.fiebelkorn_spectrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the spectrum of accuracy data as in Fiebelkorn et al. (2013)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>np.ndarray</em>) – The data for each trial</p></li>
-<li><p><strong>t</strong> (<em>np.ndarray</em>) – The time-stamp for each trial</p></li>
-<li><p><strong>nfft</strong> (<em>int</em>) – The number of samples used to compute the FFT</p></li>
-<li><p><strong>t_start</strong> (<em>float</em>) – The time stamp of the center of the first window</p></li>
-<li><p><strong>t_end</strong> (<em>float</em>) – The time stamp of the center of the last window</p></li>
-<li><p><strong>bin_step</strong> (<em>float</em>) – The step distance between windows</p></li>
-<li><p><strong>bin_width</strong> (<em>float</em>) – The width of the sliding window</p></li>
-<li><p><strong>f_max</strong> (<em>float</em><em> or </em><em>'fsk2013'</em>) – The maximum frequency to include in the analysis. ‘fsk2013’ defaults to
-the value chosen in Fiebelkorn et al. 2013.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>f</strong> (<em>np.ndarray</em>) – The frequencies of the resulting spectrum</p></li>
-<li><p><strong>y</strong> (<em>np.ndarray</em>) – The amplitude spectrum</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="oscina.shuff_time.fsk2013">
 <span class="sig-prename descclassname"><span class="pre">oscina.shuff_time.</span></span><span class="sig-name descname"><span class="pre">fsk2013</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_perm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fsk2013'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fsk2013'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fsk2013'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fsk2013'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fsk2013'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#oscina.shuff_time.fsk2013" title="Permalink to this definition">¶</a></dt>
@@ -301,48 +249,24 @@ the value chosen in Fiebelkorn et al. 2013.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p><strong>res</strong> – The results as given by <a href="#id1"><span class="problematic" id="id2">`</span></a>time_shuffled_perm`plus these items:
-t : np.ndarray</p>
-<blockquote>
-<div><p>The original time-stamps of the raw data</p>
-</div></blockquote>
-<dl class="simple">
-<dt>p_corr<span class="classifier">np.ndarray</span></dt><dd><p>P-values for each frequency, corrected for multiple comparisons
-using FDR</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>Results of the analysis. See <em>Notes</em> for details.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="oscina.shuff_time.landau_spectrum">
-<span class="sig-prename descclassname"><span class="pre">oscina.shuff_time.</span></span><span class="sig-name descname"><span class="pre">landau_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detrend_ord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#oscina.shuff_time.landau_spectrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the spectrum of behavioral data as in Landau &amp; Fries (2012)</p>
-<p>The paper doesn’t specifically mention detrending, but A.L. says they
-always detrend with a 2nd-order polynomial. That matches the data –
-without detrending, there should have been a peak at freq=0 due to the
-offset from mean accuracy being above 0.
-2021-06-14: AL tells me they used linear detrending.</p>
-<p>The paper says the data were padded before computing the FFT, but doesn’t
-specify the padding or NFFT. I’ve chosen a value to match the frequency
-resolution in the plots.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – The data time-series</p>
+<p class="rubric">Notes</p>
+<p>This function returns a dictionary with the results of the randomization
+test as returned by <code class="docutils literal notranslate"><span class="pre">time_shuffled_perm</span></code>, plus these items:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>t<span class="classifier">np.ndarray</span></dt><dd><p>The original time-stamps of the raw data</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>f</strong> (<em>np.ndarray</em>) – The frequencies of the amplitude spectrum</p></li>
-<li><p><strong>y</strong> (<em>np.ndarray</em>) – The amplitude spectrum</p></li>
-</ul>
-</p>
+<dt>p_corr<span class="classifier">np.ndarray</span></dt><dd><p>P-values for each frequency, corrected for multiple comparisons
+using FDR</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
@@ -364,13 +288,19 @@ in Landau and Fries (2012)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p><strong>res</strong> – The results of the randomization test as returned by
-<cite>time_shuffled_perm</cite>, plus these items:
-t : np.ndarray</p>
+<dd class="field-even"><p>Results of the analysis. See <em>Notes</em> for details.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function returns a dictionary with the results of the randomization
+test as returned by <code class="docutils literal notranslate"><span class="pre">time_shuffled_perm</span></code>, plus these items:</p>
 <blockquote>
-<div><p>The time-stamps of the individual trials</p>
-</div></blockquote>
-<dl class="simple">
+<div><dl class="simple">
+<dt>t<span class="classifier">np.ndarray</span></dt><dd><p>The time-stamps of the individual trials</p>
+</dd>
 <dt>t_agg<span class="classifier">np.ndarray</span></dt><dd><p>The time-steps for the aggregated accuracy time-series</p>
 </dd>
 <dt>x_agg<span class="classifier">np.ndarray</span></dt><dd><p>The aggregated accuracy time-series</p>
@@ -379,12 +309,7 @@ t : np.ndarray</p>
 correction</p>
 </dd>
 </dl>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
@@ -400,12 +325,19 @@ correction</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p><strong>res</strong> – Dictionary of the results of the randomization analysis
-x : np.ndarray</p>
+<dd class="field-even"><p>Results of the randomization analysis. See <em>Notes</em> for details.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function returns a dictionary with the results of the randomization
+test, which includes the following items:</p>
 <blockquote>
-<div><p>The raw data</p>
-</div></blockquote>
-<dl class="simple">
+<div><dl class="simple">
+<dt>x<span class="classifier">np.ndarray</span></dt><dd><p>The raw data</p>
+</dd>
 <dt>x_perm<span class="classifier">np.ndarray</span></dt><dd><p>The shuffled data</p>
 </dd>
 <dt>f<span class="classifier">np.ndarray</span></dt><dd><p>The frequencies of the resulting spectrum</p>
@@ -420,12 +352,7 @@ x : np.ndarray</p>
 <dt>p<span class="classifier">np.ndarray</span></dt><dd><p>P-values (uncorrected for multiple comparisons) for each frequency</p>
 </dd>
 </dl>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
@@ -456,6 +383,21 @@ x : np.ndarray</p>
 <dt class="sig sig-object py" id="oscina.utils.avg_repeated_timepoints">
 <span class="sig-prename descclassname"><span class="pre">oscina.utils.</span></span><span class="sig-name descname"><span class="pre">avg_repeated_timepoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_trial</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#oscina.utils.avg_repeated_timepoints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the average value of x at each unique time-point t.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_trial</strong> (<em>np.ndarray</em>) – The time-stamp of every individual trial</p></li>
+<li><p><strong>x_trial</strong> (<em>np.ndarray</em>) – The outcome of every individual trial</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>t</strong> (<em>np.ndarray</em>) – The unique time-points</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – The average outcome at each unique time-point</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -513,6 +455,11 @@ x : np.ndarray</p>
 </ul>
 
   </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="modules.html"
+                          title="previous chapter">oscina</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -543,7 +490,11 @@ x : np.ndarray</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="oscina"
+             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">oscina 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >oscina</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">oscina package</a></li> 
       </ul>
     </div>
