@@ -23,7 +23,7 @@ def robust_est(x, fs, nw=1.5, n_tapers=None,
     nw : float
         Time bandwidth parameter for the multitapers
     n_tapers : int
-        Number of DPSS tapers. If None, set to int(2 * nw) - 1
+        Number of DPSS tapers. If None, set to ``int(2 * nw) - 1``
     med_filt_win : int
         Width of the median filter used to determine the background spectrum.
     freq_cutoff : float
@@ -116,6 +116,7 @@ def fit_ar_spec(freq, spec, nyquist):
         The Nyquist frequency
 
     Returns
+    -------
     spec_fit : np.ndarray
         The spectrum that best approximates an AR(1) process fit to the data
     """

@@ -168,20 +168,6 @@ def clusterstat_1d(x_emp, x_perm, a_thresh=0.05, a_clust=0.05):
             Whether each sample is a member of a significant cluster
         p_cluster : list (float)
             P-value for each cluster in the empirical data
-
-    Algorithm:
-    Z-score amplitude across runs within each frequency
-    Get the empirical difference between the amp and avg surrogate amps
-        Get cluster stat
-    For each run in the permuted data:
-        Get the empirical difference between the amp and the other amps
-            (Including or excluding the real data?)
-        Get cluster stat
-    Get p-value from the distribution of cluster stats
-
-    To get cluster stats
-        Take all samples above some z-value
-        Look at connected
     """
 
     x = np.vstack([x_emp, x_perm])
