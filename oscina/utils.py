@@ -6,6 +6,20 @@ import numpy as np
 
 def avg_repeated_timepoints(t_trial, x_trial):
     """ Get the average value of x at each unique time-point t.
+
+    Parameters
+    ----------
+    t_trial : np.ndarray
+        The time-stamp of every individual trial
+    x_trial : np.ndarray
+        The outcome of every individual trial
+
+    Returns
+    -------
+    t : np.ndarray
+        The unique time-points
+    x : np.ndarray
+        The average outcome at each unique time-point
     """
     t = np.sort(np.unique(t_trial))
     x = [np.mean(x_trial[t_trial == t_point]) for t_point in t]
