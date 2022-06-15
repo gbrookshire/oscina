@@ -28,6 +28,11 @@ pip3 install git+https://github.com/gbrookshire/oscina
 - External Python dependencies are listed in `requirements.txt`.
 
 
+## Documentation
+
+Automatically-generated documentation is available at https://gbrookshire.github.io/oscina/.
+
+
 ## Examples
 
 See the notebook `examples/Example.ipynb` for illustrations of how to use `oscina`.

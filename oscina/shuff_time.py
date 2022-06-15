@@ -56,13 +56,22 @@ def lf2012(x, t, fs, k_perm='lf2021'):
 
     Returns
     -------
-    res : dict
-        The results of the randomization test as returned by
-        `time_shuffled_perm`, plus these items:
-        | t (*np.ndarray*): The time-stamps of the individual trials
-        | t_agg (*np.ndarray*): The time-steps for the aggregated accuracy time-series
-        | x_agg (*np.ndarray*): The aggregated accuracy time-series
-        | p_corr (*np.ndarray*): P-values corrected for multiple comparisons using Bonforroni
+    dict
+        Results of the analysis. See *Notes* for details.
+
+    Notes
+    -----
+    This function returns a dictionary with the results of the randomization
+    test as returned by ``time_shuffled_perm``, plus these items:
+
+        t : np.ndarray
+            The time-stamps of the individual trials
+        t_agg : np.ndarray
+            The time-steps for the aggregated accuracy time-series
+        x_agg : np.ndarray
+            The aggregated accuracy time-series
+        p_corr : np.ndarray
+            P-values corrected for multiple comparisons using Bonforroni
             correction
     """
 
@@ -166,8 +175,14 @@ def fsk2013(x, t,
 
     Returns
     -------
-    res : dict
-        The results as given by `time_shuffled_perm`plus these items:
+    dict
+        Results of the analysis. See *Notes* for details.
+
+    Notes
+    -----
+    This function returns a dictionary with the results of the randomization
+    test as returned by ``time_shuffled_perm``, plus these items:
+    
         t : np.ndarray
             The original time-stamps of the raw data
         p_corr : np.ndarray
@@ -314,8 +329,14 @@ def time_shuffled_perm(analysis_fnc, x, k_perm):
 
     Returns
     -------
-    res : dict
-        Dictionary of the results of the randomization analysis
+    dict
+        Results of the randomization analysis. See *Notes* for details.
+
+    Notes
+    -----
+    This function returns a dictionary with the results of the randomization
+    test, which includes the following items:
+    
         x : np.ndarray
             The raw data
         x_perm : np.ndarray

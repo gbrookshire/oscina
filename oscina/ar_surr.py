@@ -31,8 +31,14 @@ def ar_surr(x, fs, k_perm, freq_cutoff=15, correction='cluster'):
 
     Returns
     -------
-    res : dict
-        A dictionary of the results of the test.
+    dict
+        Results of the analysis. See *Notes* for details.
+
+    Notes
+    -----
+    This function returns a dictionary with the results of the AR surrogate
+    analysis, which includes these items:
+
         x : np.ndarray
             The original time-series
         x_perm : np.ndarray
@@ -158,7 +164,12 @@ def clusterstat_1d(x_emp, x_perm, a_thresh=0.05, a_clust=0.05):
         P-value. The proportion runs in the surrogate distribution that had a
         larger cluster than the largest empirical cluster.
     cluster_info : dict
-        Information about the clusters found in the data. Fields:
+        Information about the clusters found in the data. See *Notes* for details.
+
+    Notes
+    -----
+    The ``cluster_info`` return value includes the following fields:
+
         labels : np.ndarray (int)
             Label of which cluster each sample belongs to. -1 means it's not a
             member of any cluster.
