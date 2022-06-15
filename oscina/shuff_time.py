@@ -77,7 +77,7 @@ def lf2012(x, t, fs, k_perm='lf2021'):
         """ Helper to compute spectrum on shuffled data
         """
         _, x_avg = avg_repeated_timepoints(t, x_perm)
-        f, y = landau_spectrum(x_avg, fs)
+        f, y = _landau_spectrum(x_avg, fs)
         return f, y
 
     # Compute the results
@@ -91,7 +91,7 @@ def lf2012(x, t, fs, k_perm='lf2021'):
     return res
 
 
-def landau_spectrum(x, fs, detrend_ord=1):
+def _landau_spectrum(x, fs, detrend_ord=1):
     """
     Get the spectrum of behavioral data as in Landau & Fries (2012)
 
@@ -194,7 +194,7 @@ def fsk2013(x, t,
             spec_kwargs[k] = details[k]
 
     # Compute the results
-    res = time_shuffled_perm(lambda xx: fiebelkorn_spectrum(xx, t, **spec_kwargs),
+    res = time_shuffled_perm(lambda xx: _fiebelkorn_spectrum(xx, t, **spec_kwargs),
                              x, k_perm)
     res['t'] = t
 
@@ -204,7 +204,7 @@ def fsk2013(x, t,
     return res
 
 
-def fiebelkorn_binning(x_trial, t_trial,
+def _fiebelkorn_binning(x_trial, t_trial,
                        t_start, t_end,
                        bin_step, bin_width):
     """
@@ -250,7 +250,7 @@ def fiebelkorn_binning(x_trial, t_trial,
     return x_bin, t_bin
 
 
-def fiebelkorn_spectrum(x, t, nfft,
+def _fiebelkorn_spectrum(x, t, nfft,
                         t_start, t_end,
                         bin_step, bin_width,
                         f_max='fsk2013'):
@@ -285,7 +285,7 @@ def fiebelkorn_spectrum(x, t, nfft,
         The amplitude spectrum
     """
     # Get the moving average of accuracy
-    x_bin, t_bin = fiebelkorn_binning(x, t,
+    x_bin, t_bin = _fiebelkorn_binning(x, t,
                                       t_start, t_end,
                                       bin_step, bin_width)
     # Detrend the binned data
