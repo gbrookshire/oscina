@@ -33,8 +33,14 @@ def robust_est(x, fs, nw=1.5, n_tapers=None,
 
     Returns
     -------
-    res : dict
-        A dictionary of the results of the statistical tests.
+    dict
+        Results of the analysis. See *Notes* for details.
+
+    Notes
+    -----
+    This function returns a dictionary with the results of the robust estimate
+    analysis, which includes these items:
+
         x : np.ndarray
             The original time-series
         f : np.ndarray
