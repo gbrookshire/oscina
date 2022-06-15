@@ -59,14 +59,10 @@ def lf2012(x, t, fs, k_perm='lf2021'):
     res : dict
         The results of the randomization test as returned by
         `time_shuffled_perm`, plus these items:
-        t : np.ndarray
-            The time-stamps of the individual trials
-        t_agg : np.ndarray
-            The time-steps for the aggregated accuracy time-series
-        x_agg : np.ndarray
-            The aggregated accuracy time-series
-        p_corr : np.ndarray
-            P-values corrected for multiple comparisons using Bonforroni
+        | t (*np.ndarray*): The time-stamps of the individual trials
+        | t_agg (*np.ndarray*): The time-steps for the aggregated accuracy time-series
+        | x_agg (*np.ndarray*): The aggregated accuracy time-series
+        | p_corr (*np.ndarray*): P-values corrected for multiple comparisons using Bonforroni
             correction
     """
 
