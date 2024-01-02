@@ -2,7 +2,7 @@ import numpy as np
 import statsmodels.api as sm
 from statsmodels.stats.multitest import multipletests
 from scipy import stats
-from mtspec import mtspec
+import multitaper
 from scipy.ndimage import median_filter
 from scipy.optimize import curve_fit
 
@@ -62,11 +62,17 @@ def robust_est(x, fs, nw=1.5, n_tapers=None,
     # Compute spectrum using multitapers
     if n_tapers is None:  # Number of tapers
         n_tapers = int(2 * nw) - 1
-    spec, freq = mtspec(data=x,
-                        delta=fs ** -1,
-                        time_bandwidth=nw,
-                        number_of_tapers=n_tapers,
-                        statistics=False, rshape=0)
+    mt = multitaper.MTSpec(
+            x=x,
+            nw=nw,
+            kspec=n_tapers,
+            dt=fs ** -1,
+            nfft=len(x),
+            iadapt=0,
+    )
+    freq, spec = mt.rspec()
+    freq = freq.ravel()
+    spec = spec.ravel()
 
     # Smooth the spectrum with a median filter
     spec_filt = median_filter(spec, med_filt_win)
