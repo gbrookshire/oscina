@@ -4,5 +4,5 @@ matplotlib
 multitaper
 numpy
 scikit-image
-scipy
+scipy>=1.10.0
 statsmodels
