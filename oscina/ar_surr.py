@@ -72,9 +72,9 @@ def ar_surr(x, fs, k_perm, freq_cutoff=15, correction='cluster'):
     x = sm.tsa.tsatools.detrend(x, order=detrend_ord)
 
     # Estimate an AR model
-    mdl_order = (1, 0)
-    mdl = sm.tsa.ARMA(x, mdl_order)
-    result = mdl.fit(trend='c', disp=0)
+    mdl_order = (1, 0, 0)
+    mdl = sm.tsa.ARIMA(x, order=mdl_order, trend='c')
+    result = mdl.fit()
     result.summary()
     # Make a generative model using the AR parameters
     arma_process = sm.tsa.ArmaProcess.from_coeffs(result.arparams)
